@@ -21,20 +21,15 @@ ROW_HEIGHT = 42
 PADDING = 8
 
 
+
 def get_font(size: int, bold: bool = False):
-    """Пытается загрузить системный шрифт, иначе дефолтный."""
-    font_paths = [
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
-        "C:/Windows/Fonts/arial.ttf",
-    ]
-    for path in font_paths:
-        if os.path.exists(path):
-            try:
-                return ImageFont.truetype(path, size)
-            except Exception:
-                pass
-    return ImageFont.load_default()
+    base_dir = os.path.dirname(__file__)
+
+    # так как у тебя нет Bold — используем Italic как "выделение"
+    font_name = "Sagewold-Italic.otf" if bold else "Sagewold-Regular.otf"
+    font_path = os.path.join(base_dir, "fonts", font_name)
+
+    return ImageFont.truetype(font_path, size)
 
 
 def draw_cell(draw: ImageDraw, x: int, y: int, w: int, h: int,
